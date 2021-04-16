@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjp.carfinancesystem.mapper.SaletableMapper">
+
+    <select id="selectSaleInfoList" resultType="com.yjp.carfinancesystem.pojo.vo.SaleInfoVo">
+        SELECT st.`id`,st.`staff_num`,st.`sale_name`,st.`tran_type`,st.`turnover`,st.`car_id`,
+               cm.`car_type`,cm.`model_name`,cm.`pur_price`,
+               ft.`sex`,ft.`snum`,ft.`smoney`,ft.`sdate`,(st.`turnover` - cm.`pur_price`)*ft.`snum` profits
+        FROM `saletable` AS st
+                     LEFT JOIN `stafftable` AS ft ON st.`staff_num`=ft.`staff_num` AND st.`sale_date` = ft.`sdate`
+                     LEFT JOIN `carmodel` AS cm  ON st.`car_id` = cm.`id`
+    </select>
+
+    <select id="selectAll" resultType="com.yjp.carfinancesystem.pojo.Saletable">
+        select * from saletable
+    </select>
+
+    <select id="selectSaleInfoById" resultType="com.yjp.carfinancesystem.pojo.vo.SaleCarTableVo">
+        SELECT st.`staff_num`,st.`sale_name`,st.`tran_type`,st.`turnover`,
+        cm.`car_type`,cm.`model_name`,cm.`pur_price`,
+        ft.`snum`,ft.`smoney`,ft.`sdate`,(st.`turnover` - cm.`pur_price`)*ft.`snum` profits
+        FROM `saletable` AS st
+        LEFT JOIN `stafftable` AS ft ON st.`staff_num`=ft.`staff_num` and st.`sale_date` = ft.`sdate`
+        LEFT JOIN `carmodel` AS cm  ON st.`car_id` = cm.`id`
+        WHERE st.`staff_num` = #{id}
+    </select>
+
+    <select id="selectSaleProfitsList" resultType="com.yjp.carfinancesystem.pojo.vo.SaleProfitsVo">
+        SELECT ft.`sdate`,SUM(ft.`snum`) saleNum, SUM((st.`turnover` - cm.`pur_price`)*ft.`snum`) profits
+        FROM `saletable` AS st
+                     LEFT JOIN `stafftable` AS ft ON st.`staff_num`=ft.`staff_num` AND st.`sale_date` = ft.`sdate`
+                     LEFT JOIN `carmodel` AS cm  ON st.`car_id` = cm.`id`
+        GROUP BY ft.`sdate`
+    </select>
+
+    <select id="selectroyaltiesInfoById" resultType="com.yjp.carfinancesystem.pojo.vo.SaleCarTableVo">
+        SELECT st.`staff_num`,st.`sale_name`,st.`tran_type`,st.`turnover`,
+               cm.`car_type`,cm.`model_name`,cm.`pur_price`,
+               ft.`snum`,ft.`smoney`,ft.`sdate`,(st.`turnover` - cm.`pur_price`)*ft.`snum` profits,
+               (st.`turnover` - cm.`pur_price`)*ft.`snum`*0.05 royalties
+        FROM `saletable` AS st
+                     LEFT JOIN `stafftable` AS ft ON st.`staff_num`=ft.`staff_num` AND st.`sale_date` = ft.`sdate`
+                     LEFT JOIN `carmodel` AS cm  ON st.`car_id` = cm.`id`
+        WHERE st.`staff_num` = #{id}
+    </select>
+</mapper>

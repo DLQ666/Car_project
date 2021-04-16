@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Tables</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <div th:include="adminCommon :: admincommonheader"></div>
+</head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+  <!-- NAVBAR -->
+  <div th:replace="adminCommon :: #navbar-yjp-header"></div>
+  <!-- END NAVBAR -->
+  <!-- LEFT SIDEBAR -->
+  <div th:replace="adminCommon :: #sidebar-nav(activeUri = 'adminCarInfo.html')"></div>
+  <!-- END LEFT SIDEBAR -->
+  <!-- MAIN -->
+  <div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <div class="container-fluid">
+        <h3 class="page-title">Tables</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+              <div class="panel-heading">
+                <h3 class="panel-title">车辆管理</h3>
+              </div>
+              <div class="panel">
+                <form th:action="@{/car}" method="post">
+                  <!--发送put请求修改员工数据-->
+                  <!--1、springmvc中配置HiddenHttpMethodFilter
+                      2、页面创建一个post表单
+                      3、创建一个input项，name="_method";值就是我们指定的请求方式
+                  -->
+                  <input type="hidden" name="_method" value="put" th:if="${car!=null}">
+                  <input type="hidden" name="id" th:if="${car!=null}" th:value="${car.id}">
+                  <div class="panel-body">
+                    <select class="form-control" name="carType" >
+                      <option th:selected="${car!=null}?${car.carType == motortype.typeName}"
+                              th:each="motortype:${motortypeList}"
+                              th:value="${motortype.typeName}"
+                              th:text="${motortype.typeName}"></option>
+                    </select>
+                    <br>
+                    <input type="text" name="modelName" class="form-control" th:value="${car!=null}?${car.modelName}" placeholder="输入型号">
+                    <br>
+                    <input type="text" name="modelNum" class="form-control" th:value="${car!=null}?${car.modelNum}" placeholder="输入库存数量">
+                    <br>
+                    <input type="text" name="purPrice" class="form-control" th:value="${car!=null}?${car.purPrice}" placeholder="输入进价">
+                    <br>
+                    <input type="text" name="selPrice" class="form-control" th:value="${car!=null}?${car.selPrice}" placeholder="输入售价">
+                    <br>
+                    <button type="submit" class="btn btn-primary" th:text="${car != null}?'修改':'添加'">添加</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+  </div>
+  <!-- END MAIN -->
+  <div class="clearfix"></div>
+  <footer>
+    <div class="container-fluid">
+    </div>
+  </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<div th:replace="adminCommon :: #commonscript"></div>
+</body>
+
+</html>

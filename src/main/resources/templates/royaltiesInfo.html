@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Tables</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <div th:include="saleCommon :: salecommonheader"></div>
+</head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <div th:replace="saleCommon :: #navbar-yjp-header"></div>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div th:replace="saleCommon :: #sidebar-nav(activeUri = 'royaltiesInfo.html')"></div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">工资提成</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- TABLE STRIPED -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">提成记录表</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>员工工号</th>
+                                        <th>员工用户名</th>
+                                        <th>基本工资</th>
+                                        <th>销售车型</th>
+                                        <th>销售数量</th>
+                                        <th>销售额</th>
+                                        <th>提成率</th>
+                                        <th>提成</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="royalties,status:${royaltiesList}">
+                                        <td th:text="${status.count}"></td>
+                                        <td th:text="${royalties.staffNum}"></td>
+                                        <td th:text="${royalties.saleName}"></td>
+                                        <td th:text="${royalties.salary}"></td>
+                                        <td th:text="${royalties.carType}+${royalties.modelName}"></td>
+                                        <td th:text="${royalties.snum}"></td>
+                                        <td th:text="${royalties.smoney}"></td>
+                                        <td th:text="${#numbers.formatDecimal(royalties.royaltiesRate * 100,0,0)}+'%'"></td>
+                                        <td th:text="${royalties.royalties}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- END TABLE STRIPED -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<div th:replace="saleCommon :: #commonscript"></div>
+<script>
+</script>
+</body>
+
+</html>

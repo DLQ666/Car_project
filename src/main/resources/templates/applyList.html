@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Tables</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<div th:include="adminCommon :: admincommonheader"></div>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<div th:replace="adminCommon :: #navbar-yjp-header"></div>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div th:replace="adminCommon :: #sidebar-nav(activeUri = 'applyList.html')"></div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Tables</h3>
+					<div class="row">
+						<div class="col-md-12">
+							<!-- TABLE STRIPED -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">审批金额信息表</h3>
+								</div>
+								<div class="panel-body">
+									<button type="button" th:if="${session.loginAdminUser != null}" id="applyMoney" class="btn btn-success">申请资金</button>
+									<table class="table table-striped">
+										<thead>
+										<tr>
+											<th>#</th>
+											<th>申请人工号</th>
+											<th>申请额</th>
+											<th>申请用途</th>
+											<th>审批</th>
+											<th>日期</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr th:each="apply:${applyList}">
+											<td th:text="${apply.id}"></td>
+											<td th:text="${apply.aname}"></td>
+											<td th:text="${apply.amoney}"></td>
+											<td th:text="${apply.reason}"></td>
+											<td th:text="${apply.approval}"></td>
+											<td th:text="${apply.sdate}"></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- END TABLE STRIPED -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<div th:replace="adminCommon :: #commonscript"></div>
+<script>
+	$("#applyMoney").click(function () {
+		window.location.href = 'http://gitdlq.top:81/applyMoney'
+	})
+</script>
+</body>
+
+</html>
